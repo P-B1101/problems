@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'queen_cell.dart';
 import 'queen_problem_solver.dart';
 
-class QueensWidgets extends StatelessWidget {
+class QueensWidget extends StatelessWidget {
   final QueenProblemSolver queen;
-  const QueensWidgets({
+  const QueensWidget({
     super.key,
     required this.queen,
   });
@@ -114,7 +114,7 @@ class _CellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cell.isSelected
-          ? Colors.black87
+          ? Colors.green
           : cell.cacheSelected
               ? Colors.yellow.withOpacity(.8)
               : Colors.white,

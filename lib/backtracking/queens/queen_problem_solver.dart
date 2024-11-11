@@ -1,8 +1,9 @@
 import 'package:flutter/foundation.dart';
-import 'package:problems/backtracking/queens/queen_cell.dart';
 
-final class QueenProblemSolver extends ChangeNotifier
-    implements ValueListenable<(List<QueenCell> current, List<List<QueenCell>> all)> {
+import '../../domain/solver_notifier.dart';
+import 'queen_cell.dart';
+
+final class QueenProblemSolver extends SolverNotifier<(List<QueenCell> current, List<List<QueenCell>> all)> {
   final Map<(int, int), QueenCell> _cells;
   final List<List<QueenCell>> _answers;
   final int size;
@@ -26,6 +27,7 @@ final class QueenProblemSolver extends ChangeNotifier
     return result;
   }
 
+  @override
   void solve() {
     if (_cells.isEmpty) return;
     List<int> queens = [];
@@ -41,11 +43,9 @@ final class QueenProblemSolver extends ChangeNotifier
     for (int col = 0; col < n; col++) {
       if (await _isValid(queens, row, col)) {
         queens.add(col);
-        _cells[(queens.length - 1, col)] = _cells[(queens.length - 1, col)]!.markAsSelected();
-        await _notify();
+        await notify(() => _cells[(queens.length - 1, col)] = _cells[(queens.length - 1, col)]!.markAsSelected());
         await _backtrack(n, row + 1, queens);
-        _cells[(queens.length - 1, queens.last)] = _cells[(queens.length - 1, queens.last)]!.clearSelected();
-        await _notify();
+        await notify(() => _cells[(queens.length - 1, queens.last)] = _cells[(queens.length - 1, queens.last)]!.clearSelected());
         queens.removeLast();
       }
     }
@@ -54,26 +54,21 @@ final class QueenProblemSolver extends ChangeNotifier
   Future<bool> _isValid(List<int> queens, int row, int col) async {
     for (int r = 0; r < row; r++) {
       int c = queens[r];
-      _cells[(row, col)] = _cells[(row, col)]!.markAsCacheSelected();
-      await _notify();
+      await notify(() => _cells[(row, col)] = _cells[(row, col)]!.markAsCacheSelected());
       if (c == col) {
-        _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected();
-        _notify();
+        notify(() => _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected());
         return false;
       }
       if ((r - c) == (row - col)) {
-        _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected();
-        _notify();
+        notify(() => _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected());
         return false;
       }
       if ((r + c) == (row + col)) {
-        _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected();
-        _notify();
+        notify(() => _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected());
         return false;
       }
     }
-    _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected();
-    _notify();
+    notify(() => _cells[(row, col)] = _cells[(row, col)]!.clearCacheSelected());
     return true;
   }
 
@@ -89,11 +84,6 @@ final class QueenProblemSolver extends ChangeNotifier
       }
     }
     _answers.add(board);
-  }
-
-  Future<void> _notify() async {
-    notifyListeners();
-    await Future.delayed(Duration.zero);
   }
 
   @override

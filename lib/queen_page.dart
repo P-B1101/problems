@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'backtracking/queens/queens.dart';
@@ -16,7 +17,7 @@ class _QueenPageState extends State<QueenPage> {
   bool _createMode = true;
   QueenProblemSolver? _solver;
 
-  void _solveQueen() {
+  void _onTap() {
     final count = int.tryParse(_counter);
     if (count == null) return;
     if (_counter == _solver?.size.toString() && _solver != null) {
@@ -55,23 +56,23 @@ class _QueenPageState extends State<QueenPage> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               width: 200,
-              child: TextField(
+              child: CupertinoTextField(
                 onChanged: (value) => _counter = value,
                 textAlign: TextAlign.center,
                 readOnly: !_createMode,
               ),
             ),
-            const SizedBox(height: 8),
-            ActionButton(
-              onTap: _solveQueen,
+            const SizedBox(height: 24),
+            ActionButton.mode(
+              onTap: _onTap,
               isCreateMode: _createMode,
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: 12),
             if (_solver != null)
               Flexible(
                 child: Padding(
                   padding: const EdgeInsets.all(16),
-                  child: QueensWidgets(queen: _solver!),
+                  child: QueensWidget(queen: _solver!),
                 ),
               ),
           ],

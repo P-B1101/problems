@@ -1,7 +1,9 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:problems/queen_page.dart';
 import 'package:problems/router.dart';
+import 'package:problems/sudoku_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -55,9 +57,19 @@ class _MyHomePageState extends State<MyHomePage> {
         padding: const EdgeInsets.symmetric(vertical: 32, horizontal: 24),
         child: Column(
           children: <Widget>[
-            MaterialButton(
-              child: const Text('Queens'),
-              onPressed: () => context.goNamed(QueenPage.route),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: CupertinoButton.filled(
+                child: const Text('Queens'),
+                onPressed: () => context.goNamed(QueenPage.route),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              child: CupertinoButton.filled(
+                child: const Text('Sudoku'),
+                onPressed: () => context.goNamed(SudokuPage.route),
+              ),
             ),
           ],
         ),
