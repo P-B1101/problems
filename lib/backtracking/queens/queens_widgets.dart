@@ -3,7 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import 'queen_cell.dart';
-import 'solve_queen.dart';
+import 'queen_problem_solver.dart';
 
 class QueensWidgets extends StatelessWidget {
   final QueenProblemSolver queen;
