@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:queens/backtracking/queens/queens_widgets.dart';
-import 'package:queens/backtracking/queens/solve_queen.dart';
+import 'package:problems/backtracking/queens/queens_widgets.dart';
+import 'package:problems/backtracking/queens/solve_queen.dart';
 
 void main() {
   runApp(const MyApp());

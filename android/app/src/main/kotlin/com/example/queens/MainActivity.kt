@@ -1,4 +1,4 @@
-package com.example.queens
+package com.example.problems
 
 import io.flutter.embedding.android.FlutterActivity
 

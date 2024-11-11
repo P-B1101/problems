@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:queens/backtracking/queens/queen_cell.dart';
+import 'package:problems/backtracking/queens/queen_cell.dart';
 
 final class QueenProblemSolver extends ChangeNotifier
     implements ValueListenable<(List<QueenCell> current, List<List<QueenCell>> all)> {

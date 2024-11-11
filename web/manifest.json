@@ -1,6 +1,6 @@
 {
-    "name": "queens",
-    "short_name": "queens",
+    "name": "problems",
+    "short_name": "problems",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
