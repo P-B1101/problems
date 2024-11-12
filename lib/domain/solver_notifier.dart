@@ -4,8 +4,10 @@ abstract class SolverNotifier<T> extends ChangeNotifier implements ValueListenab
   Future<void> notify(Function() func) async {
     func();
     notifyListeners();
-    await Future.delayed(Duration.zero);
+    await Future.delayed(duration);
   }
+
+  Duration get duration => Duration.zero;
 
   void solve();
 }

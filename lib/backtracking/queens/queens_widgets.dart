@@ -1,6 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:problems/backtracking/queens/colored_queen_cell.dart';
 
 import 'queen_cell.dart';
 import 'queen_problem_solver.dart';
@@ -114,10 +115,12 @@ class _CellWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: cell.isSelected
-          ? Colors.green
+          ? Colors.green.withOpacity(.25)
           : cell.cacheSelected
               ? Colors.yellow.withOpacity(.8)
               : Colors.white,
     );
   }
+
+  bool get isColored => cell is ColoredQueenCell;
 }
