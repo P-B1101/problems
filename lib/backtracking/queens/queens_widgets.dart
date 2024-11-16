@@ -1,13 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:problems/backtracking/queens/colored_queen_cell.dart';
 
+import 'colored_queen_cell.dart';
 import 'queen_cell.dart';
 import 'queen_problem_solver.dart';
 
 class QueensWidget extends StatelessWidget {
-  final QueenProblemSolver queen;
+  final BaseQueenProblemSolver queen;
   const QueensWidget({
     super.key,
     required this.queen,
@@ -21,7 +21,7 @@ class QueensWidget extends StatelessWidget {
         builder: (context, value, child) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _BoarbWidget(value.$1),
+            _BoardWidget(value.$1),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -34,7 +34,7 @@ class QueensWidget extends StatelessWidget {
                   (index) => SizedBox(
                     width: 100,
                     height: 100,
-                    child: _BoarbWidget(value.$2[index]),
+                    child: _BoardWidget(value.$2[index]),
                   ),
                 ),
               ),
@@ -46,9 +46,9 @@ class QueensWidget extends StatelessWidget {
   }
 }
 
-class _BoarbWidget extends StatelessWidget {
-  final List<QueenCell> items;
-  const _BoarbWidget(this.items);
+class _BoardWidget extends StatelessWidget {
+  final List<BaseQueenCell> items;
+  const _BoardWidget(this.items);
 
   @override
   Widget build(BuildContext context) {
@@ -104,7 +104,7 @@ class _BoarbWidget extends StatelessWidget {
 }
 
 class _CellWidget extends StatelessWidget {
-  final QueenCell cell;
+  final BaseQueenCell cell;
   final double size;
   const _CellWidget({
     required this.cell,
@@ -113,14 +113,21 @@ class _CellWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final child = Container(
       color: cell.isSelected
           ? Colors.green.withOpacity(.25)
           : cell.cacheSelected
               ? Colors.yellow.withOpacity(.8)
               : Colors.white,
     );
+    if (!_isColored) return child;
+    return Container(
+      width: size,
+      height: size,
+      color: (cell as ColoredQueenCell).color.color,
+      child: child,
+    );
   }
 
-  bool get isColored => cell is ColoredQueenCell;
+  bool get _isColored => cell is ColoredQueenCell;
 }

@@ -2,7 +2,7 @@ import 'colored_queen_cell.dart';
 import 'queen_cell_color.dart';
 import 'queen_problem_solver.dart';
 
-class ColoredQueenProblemSolver extends QueenProblemSolver {
+class ColoredQueenProblemSolver extends BaseQueenProblemSolver<ColoredQueenCell> {
   ColoredQueenProblemSolver(List<List<QueenCellColor>> cells) : super.fromCell(_createCells(cells), cells.length);
 
   static Map<(int, int), ColoredQueenCell> _createCells(List<List<QueenCellColor>> cells) {
@@ -38,6 +38,5 @@ class ColoredQueenProblemSolver extends QueenProblemSolver {
   }
 
   @override
-  (List<ColoredQueenCell> current, List<List<ColoredQueenCell>> all) get value =>
-      (cells.values.toList(), answers) as (List<ColoredQueenCell> current, List<List<ColoredQueenCell>> all);
+  (List<ColoredQueenCell> current, List<List<ColoredQueenCell>> all) get value => (cells.values.toList(), answers);
 }

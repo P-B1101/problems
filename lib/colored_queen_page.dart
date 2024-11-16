@@ -33,7 +33,7 @@ class _ColoredQueenPageState extends State<ColoredQueenPage> {
       _createMode = false;
       _solver = ColoredQueenProblemSolver(List.generate(
         count,
-        (index) => List.generate(count, (j) => QueenCellColor.brown),
+        (index) => List.generate(count, (j) => QueenCellColor.blue),
       ));
     });
   }
@@ -43,7 +43,7 @@ class _ColoredQueenPageState extends State<ColoredQueenPage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('N-Queens'),
+        title: const Text('Colored-Queens'),
       ),
       body: SizedBox(
         width: double.infinity,
