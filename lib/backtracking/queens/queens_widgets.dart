@@ -37,11 +37,17 @@ class _QueensWidgetState extends State<QueensWidget> {
                 alignment: WrapAlignment.start,
                 children: List.generate(
                   value.$2.length,
-                  (index) => SizedBox(
-                    width: 100,
-                    height: 100,
-                    child: _BoardWidget(value.$2[index]),
-                  ),
+                  (index) {
+                    final board = _BoardWidget(value.$2[index]);
+                    return InkWell(
+                      onTap: () => _onAnswerClick(board),
+                      child: SizedBox(
+                        width: 100,
+                        height: 100,
+                        child: board,
+                      ),
+                    );
+                  },
                 ),
               ),
             ),
@@ -53,6 +59,17 @@ class _QueensWidgetState extends State<QueensWidget> {
 
   void _onClick(BaseQueenCell cell) {
     widget.queen.updateCell(cell);
+  }
+
+  void _onAnswerClick(Widget snapshot) {
+    showAdaptiveDialog(
+      context: context,
+      builder: (context) => Dialog(
+        clipBehavior: Clip.antiAlias,
+        alignment: Alignment.center,
+        child: snapshot,
+      ),
+    );
   }
 }
 
