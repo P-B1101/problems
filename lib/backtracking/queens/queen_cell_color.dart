@@ -8,7 +8,9 @@ enum QueenCellColor {
   yellow(Colors.yellowAccent),
   grey(Colors.grey),
   green(Colors.lightGreenAccent),
-  red(Colors.redAccent);
+  red(Colors.redAccent),
+  cyan(Colors.cyan),
+  ;
 
   final Color color;
 
@@ -22,6 +24,7 @@ enum QueenCellColor {
         yellow => grey,
         grey => green,
         green => red,
-        red => purple,
+        red => cyan,
+        cyan => purple,
       };
 }

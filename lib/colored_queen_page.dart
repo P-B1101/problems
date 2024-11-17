@@ -33,7 +33,7 @@ class _ColoredQueenPageState extends State<ColoredQueenPage> {
       _createMode = false;
       _solver = ColoredQueenProblemSolver(List.generate(
         count,
-        (index) => List.generate(count, (j) => QueenCellColor.blue),
+        (index) => List.generate(count, (j) => QueenCellColor.red),
       ));
     });
   }

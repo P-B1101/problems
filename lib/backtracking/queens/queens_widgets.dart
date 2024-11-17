@@ -1,12 +1,13 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:problems/backtracking/queens/colored_queen_problem_solver.dart';
 
 import 'colored_queen_cell.dart';
 import 'queen_cell.dart';
 import 'queen_problem_solver.dart';
 
-class QueensWidget extends StatelessWidget {
+class QueensWidget extends StatefulWidget {
   final BaseQueenProblemSolver queen;
   const QueensWidget({
     super.key,
@@ -14,14 +15,19 @@ class QueensWidget extends StatelessWidget {
   });
 
   @override
+  State<QueensWidget> createState() => _QueensWidgetState();
+}
+
+class _QueensWidgetState extends State<QueensWidget> {
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: ValueListenableBuilder(
-        valueListenable: queen,
+        valueListenable: widget.queen,
         builder: (context, value, child) => Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _BoardWidget(value.$1),
+            _BoardWidget(value.$1, widget.queen is ColoredQueenProblemSolver && !value.$3 ? _onClick : null),
             const SizedBox(height: 12),
             SizedBox(
               width: double.infinity,
@@ -44,11 +50,16 @@ class QueensWidget extends StatelessWidget {
       ),
     );
   }
+
+  void _onClick(BaseQueenCell cell) {
+    widget.queen.updateCell(cell);
+  }
 }
 
 class _BoardWidget extends StatelessWidget {
   final List<BaseQueenCell> items;
-  const _BoardWidget(this.items);
+  final Function(BaseQueenCell cell)? onClick;
+  const _BoardWidget(this.items, [this.onClick]);
 
   @override
   Widget build(BuildContext context) {
@@ -90,6 +101,7 @@ class _BoardWidget extends StatelessWidget {
                       child: _CellWidget(
                         cell: items[(size * index) + innerIndex],
                         size: cellSize,
+                        onClick: onClick,
                       ),
                     ),
                   ),
@@ -105,27 +117,40 @@ class _BoardWidget extends StatelessWidget {
 
 class _CellWidget extends StatelessWidget {
   final BaseQueenCell cell;
+  final Function(BaseQueenCell cell)? onClick;
   final double size;
   const _CellWidget({
     required this.cell,
     required this.size,
+    required this.onClick,
   });
 
   @override
   Widget build(BuildContext context) {
-    final child = Container(
-      color: cell.isSelected
-          ? Colors.green.withOpacity(.25)
-          : cell.cacheSelected
-              ? Colors.yellow.withOpacity(.8)
-              : Colors.white,
-    );
-    if (!_isColored) return child;
+    if (!_isColored) {
+      return Container(
+        color: cell.isSelected
+            ? Colors.green.withOpacity(.5)
+            : cell.cacheSelected
+                ? Colors.amber.withOpacity(.5)
+                : Colors.white.withOpacity(.5),
+      );
+    }
     return Container(
-      width: size,
-      height: size,
       color: (cell as ColoredQueenCell).color.color,
-      child: child,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onClick == null ? null : () => onClick!(cell),
+          child: cell.isSelected || cell.cacheSelected
+              ? Icon(
+                  Icons.person_2_rounded,
+                  color: Colors.white.withOpacity(cell.cacheSelected ? .75 : 1),
+                  size: size * .75,
+                )
+              : const SizedBox(),
+        ),
+      ),
     );
   }
 

@@ -10,4 +10,6 @@ abstract class SolverNotifier<T> extends ChangeNotifier implements ValueListenab
   Duration get duration => Duration.zero;
 
   void solve();
+
+  bool isCalculating = false;
 }

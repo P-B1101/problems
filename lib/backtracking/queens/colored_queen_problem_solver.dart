@@ -24,11 +24,11 @@ class ColoredQueenProblemSolver extends BaseQueenProblemSolver<ColoredQueenCell>
         notify(() => cells[(row, col)] = cells[(row, col)]!.clearCacheSelected());
         return false;
       }
-      if ((r - c) == (row - col)) {
+      if ((row - r).abs() == 1 && (c - col).abs() == 1) {
         notify(() => cells[(row, col)] = cells[(row, col)]!.clearCacheSelected());
         return false;
       }
-      if ((r + c) == (row + col)) {
+      if (cells[(row, col)]!.color == cells[(r, c)]!.color) {
         notify(() => cells[(row, col)] = cells[(row, col)]!.clearCacheSelected());
         return false;
       }
@@ -38,5 +38,12 @@ class ColoredQueenProblemSolver extends BaseQueenProblemSolver<ColoredQueenCell>
   }
 
   @override
-  (List<ColoredQueenCell> current, List<List<ColoredQueenCell>> all) get value => (cells.values.toList(), answers);
+  (List<ColoredQueenCell> current, List<List<ColoredQueenCell>> all, bool isCalculating) get value =>
+      (cells.values.toList(), answers, isCalculating);
+
+  @override
+  void updateCell(ColoredQueenCell cell) {
+    cells[cell.index] = cells[cell.index]!.toggleColor();
+    super.updateCell(cell);
+  }
 }

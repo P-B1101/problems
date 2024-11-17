@@ -4,7 +4,7 @@ import '../../domain/solver_notifier.dart';
 import 'queen_cell.dart';
 
 abstract class BaseQueenProblemSolver<T extends BaseQueenCell>
-    extends SolverNotifier<(List<BaseQueenCell> current, List<List<BaseQueenCell>> all)> {
+    extends SolverNotifier<(List<BaseQueenCell> current, List<List<BaseQueenCell>> all, bool isCalculating)> {
   @protected
   late final Map<(int, int), T> cells;
   @protected
@@ -23,6 +23,7 @@ abstract class BaseQueenProblemSolver<T extends BaseQueenCell>
   @override
   void solve() {
     if (cells.isEmpty) return;
+    notify(() => isCalculating = true);
     solveViaBacktrack(size, 0);
   }
 
@@ -36,6 +37,7 @@ abstract class BaseQueenProblemSolver<T extends BaseQueenCell>
   Future<void> solveViaBacktrack(int n, int row) async {
     if (row == n) {
       _constructBoard(n);
+      notify(() => isCalculating = false);
       return;
     }
     for (int col = 0; col < n; col++) {
@@ -68,6 +70,10 @@ abstract class BaseQueenProblemSolver<T extends BaseQueenCell>
     return true;
   }
 
+  void updateCell(T cell) {
+    notify(() {});
+  }
+
   void _constructBoard(int n) {
     answers.add(cells.values.toList());
   }
@@ -87,5 +93,6 @@ class QueenProblemSolver extends BaseQueenProblemSolver<QueenCell> {
   }
 
   @override
-  (List<QueenCell> current, List<List<QueenCell>> all) get value => (cells.values.toList(), answers);
+  (List<QueenCell> current, List<List<QueenCell>> all, bool isCalculating) get value =>
+      (cells.values.toList(), answers, isCalculating);
 }

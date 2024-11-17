@@ -8,4 +8,5 @@ abstract interface class QueenCellMarker<T extends BaseQueenCell> {
   T markAsCacheSelected();
 
   T clearCacheSelected();
+
 }
