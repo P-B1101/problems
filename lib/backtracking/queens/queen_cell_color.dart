@@ -9,8 +9,7 @@ enum QueenCellColor {
   grey(Colors.grey),
   green(Colors.lightGreenAccent),
   red(Colors.redAccent),
-  cyan(Colors.cyan),
-  ;
+  cyan(Colors.cyan);
 
   final Color color;
 
